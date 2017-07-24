@@ -29,6 +29,8 @@ shinyServer(function(input, output, session) {
       v$Losses <- NULL 
       v$text <- NULL
       v$messages <- ""
+      v$vs <- NULL
+      
       session$sendCustomMessage(type = "message",
                                 message = "Error: Please choose a winner for each game")
     }
@@ -56,6 +58,7 @@ shinyServer(function(input, output, session) {
                                            "Losses" = v$Losses,
                                            stringsAsFactors = F)})
   output$explanations <- renderUI(HTML(v$html))
+ 
   
   
   ### Women
@@ -93,11 +96,11 @@ shinyServer(function(input, output, session) {
       wv$Losses <- as.character(14 - wtmp$wins)
       wv$text <- "Season Standings"
       wmessages <- wtmp$messages
-      v$html = "<ul>"
+      wv$html = "<ul>"
       for(i in 1:length(wmessages)) {
         wv$html <- paste(wv$html, "<li>", wmessages[i], "</li>", sep = "")
       }
-      v$html <- paste(wv$html, "</ul>", sep = "")
+      wv$html <- paste(wv$html, "</ul>", sep = "")
     }
     
   })
