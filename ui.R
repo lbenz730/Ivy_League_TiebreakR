@@ -286,7 +286,17 @@ shinyUI(navbarPage("Ivy League TiebreakR",
                                               img(src = "http://images.huffingtonpost.com/2013-10-15-IvyLeague.jpg", heigh = 300, width = 300),
                                               img(src = "https://sports-images.vice.com/images/highlights/meta/2017/03/12/yale-bulldog-pupper-makes-for-the-best-good-boy-celebration-1489342903.jpg?crop=0.961111111111111xw:1xh;center,center&resize=1050:*", height = 300, width = 300))
                                           ),
-                                          mainPanel(### Jan 12
+                                          mainPanel(
+                                            
+                                            ### Jan 6
+                                            fluidRow(h3("January 6th"),
+                                                     column(3, radioButtons("wgame_41", label = h5("Princeton @ Penn"),
+                                                                            choices = list("Princeton" = "Princeton", "Penn" = "Penn"), selected = wgames$winner[41])),
+                                                     column(3, radioButtons("wgame_25", label = h5("Harvard @ Dartmouth"),
+                                                                   choices = list("Harvard" = "Harvard", "Dartmouth" = "Dartmouth"), selected = wgames$winner[25]))
+                                            ),
+                                            
+                                            ### Jan 12
                                             fluidRow(h3("January 12th"),
                                                      column(3, radioButtons("wgame_44", label = h5("Columbia @ Princeton"),
                                                                             choices = list("Columbia" = "Columbia", "Princeton" = "Princeton"), selected = wgames$winner[44])),
@@ -314,6 +324,8 @@ shinyUI(navbarPage("Ivy League TiebreakR",
                                             
                                             ### Jan 20
                                             fluidRow(h3("January 20th"),
+                                                     column(3, radioButtons("wgame_32", label = h5("Dartmouth @ Harvard"),
+                                                                            choices = list("Dartmouth" = "Dartmouth", "Harvard" = "Harvard"), selected = wgames$winner[32])),
                                                      column(3, radioButtons("wgame_9", label = h5("Cornell @ Columbia"),
                                                                             choices = list("Cornell" = "Cornell", "Columbia" = "Columbia"), selected = wgames$winner[9]))
                                             ),
@@ -383,6 +395,13 @@ shinyUI(navbarPage("Ivy League TiebreakR",
                                                      column(3, radioButtons("wgame_46", label = h5("Dartmouth @ Princeton"),
                                                                             choices = list("Dartmouth" = "Dartmouth", "Princeton" = "Princeton"), selected = wgames$winner[46]))
                                             ),
+                                            
+                                            ### Feb 13
+                                            fluidRow(h3("February 13th"),
+                                                        column(3, radioButtons("wgame_48", label = h5("Penn @ Princeton"),
+                                                                               choices = list("Penn" = "Penn", "Princeton" = "Princeton"), selected = wgames$winner[48]))
+                                            ),
+
                                             
                                             ### Feb 16th
                                             fluidRow(h3("February 16th"),
@@ -459,18 +478,6 @@ shinyUI(navbarPage("Ivy League TiebreakR",
                                                                             choices = list("Yale" = "Yale", "Princeton" = "Princeton"), selected = wgames$winner[49]))
                                                      
                                                      
-                                            ),
-                                            
-                                            ### Date TBD
-                                            fluidRow(h3("Date TBD"),
-                                                     column(3, radioButtons("wgame_25", label = h5("Harvard @ Dartmouth"),
-                                                                            choices = list("Harvard" = "Harvard", "Dartmouth" = "Dartmouth"), selected = wgames$winner[25])),
-                                                     column(3, radioButtons("wgame_32", label = h5("Dartmouth @ Harvard"),
-                                                                            choices = list("Dartmouth" = "Dartmouth", "Harvard" = "Harvard"), selected = wgames$winner[32])),
-                                                     column(3, radioButtons("wgame_41", label = h5("Princeton @ Penn"),
-                                                                            choices = list("Princeton" = "Princeton", "Penn" = "Penn"), selected = wgames$winner[41])),
-                                                     column(3, radioButtons("wgame_48", label = h5("Penn @ Princeton"),
-                                                                            choices = list("Penn" = "Penn", "Princeton" = "Princeton"), selected = wgames$winner[48]))
                                             ),
                                             
                                             ### Load js for submit
