@@ -7,6 +7,7 @@ wgames <- read.csv("wgames.csv", as.is = T)
 tiebreak <- function(data, gender, winners) {
   ivy <- unique(data$home)
   messages <- vector()
+
   
   ### Set winners and losers
   data$winner <- winners
@@ -45,9 +46,12 @@ tiebreak <- function(data, gender, winners) {
   
   # Break any ties
   for(i in 1:(length(ivy) - 1)) {
+    sub_message_1 <- vector()
+    sub_message_2 <- vector()
     if(sum(prebreak_pos == i) > 1){
       # Get teams to between which to break tie
-      teams <- ivy[preBreak[i] == wins]
+      teams <- ivy[prebreak_pos == i]
+      tie <- length(teams)
       teamIDs <- c(1:length(ivy))[is.element(ivy, teams)]
       
       # Tiebreak 1 (H2H)
@@ -59,7 +63,7 @@ tiebreak <- function(data, gender, winners) {
         winner <- teams[grep(max(h2h), h2h)]
         winnerID <- teamIDs[grep(max(h2h), h2h)]
         # Winner wins tie-break
-        wins[winnerID] <- wins[winnerID] + 0.1 * length(teams)
+        wins[winnerID] <- wins[winnerID] + 0.1 * tie
         # Change current standing of losers
         change <- teams[teams != winner]
         prebreak_pos[is.element(ivy, change)] <- i + 1
@@ -74,6 +78,18 @@ tiebreak <- function(data, gender, winners) {
         message <- paste(winner, "beats", losers, "in Tiebreak 1 (Head To Head)", sep = " ")
         messages <- c(messages, message)
         next
+      }
+      else if(sum(h2h == max(h2h)) > 1 & sum(h2h == max(h2h)) < length(teams)){
+        change <- setdiff(teams, teams[grep(max(h2h), h2h)])
+        teams <- teams[grep(max(h2h), h2h)]
+        j <- length(change)
+        if(j == 1) {
+          eliminated <- change
+        }else{ 
+          eliminated <- paste(paste(change[-j], collapse = ", "), "and", change[j], sep = " ")
+        }
+        sub_message_1 <- paste(eliminated, "eliminated in Tiebreak 1 (Head To Head)", sep = " ")
+        prebreak_pos[is.element(ivy,change)] <- i + 1
       }
       
       # Tiebreak 2 (Record vs. 1-8, descending order)
@@ -93,7 +109,7 @@ tiebreak <- function(data, gender, winners) {
           winner <- teams[grep(max(h2h), h2h)]
           winnerID <- teamIDs[grep(max(h2h), h2h)]
           # Winner wins tie-break
-          wins[winnerID] <-  wins[winnerID] + 0.1 * length(teams)
+          wins[winnerID] <-  wins[winnerID] + 0.1 * tie
           # Change current standing of losers
           change <- teams[teams != winner]
           prebreak_pos[is.element(ivy, change)] <- i + 1
@@ -114,8 +130,23 @@ tiebreak <- function(data, gender, winners) {
           }
           message <- paste(winner, "beats", losers, "
                            in Tiebreak 2 (Record vs. 1-8, descending order) by virture of better record against", comps, sep = " ")
+          if(length(sub_message_1) == 1) {
+            message <- paste(message, " [", sub_message_1, "]", sep = "")
+          }
           messages <- c(messages, message)
           break
+        }
+        else if(sum(h2h == max(h2h)) > 1 & sum(h2h == max(h2h)) < length(teams)){
+          change <- setdiff(teams, teams[grep(max(h2h), h2h)])
+          teams <- teams[grep(max(h2h), h2h)]
+          j <- length(change)
+          if(j == 1) {
+            eliminated <- change
+          }else{ 
+            eliminated <- paste(paste(change[-j], collapse = ", "), "and", change[j], sep = " ")
+          }
+          sub_message_2 <- paste(eliminated, "eliminated in Tiebreak 2 (Head To Head)", sep = " ")
+          prebreak_pos[is.element(ivy,change)] <- i + 1
         }
       }
       if(z < 8){
@@ -155,6 +186,12 @@ tiebreak <- function(data, gender, winners) {
         losers <- paste(paste(change[-j], collapse = ", "), ", and ", change[j], sep = "")
       }
       message <- paste(winner, "beats", losers, "in Tiebreak 3 (Analytics)", sep = " ")
+      if(length(sub_message_1) == 1) {
+        message <- paste(message, " [", sub_message_1, "]", sep = "")
+      }
+      if(length(sub_message_2) == 1) {
+        message <- paste(message, " [", sub_message_2, "]", sep = "")
+      }
       messages <- c(messages, message)
       next
     }
@@ -164,9 +201,10 @@ tiebreak <- function(data, gender, winners) {
     messages <- "No Tiebreaks!"
   }
   
+  
+  
   return(list("team" = ivy[order(prebreak_pos)],
               "wins" = floor(wins[order(prebreak_pos)]),
               "messages" = messages))
 }
-
 
