@@ -162,13 +162,10 @@ tiebreak <- function(data, gender, winners) {
         winner <- tmp$Team[grep(max(tmp$YUSAG_Coefficient), tmp$YUSAG_Coefficient)]
       }
       else{
-        url <- "http://www.ncaa.com/rankings/basketball-women/d1/ncaa-womens-basketball-rpi"
-        tmp <- as.data.frame(readHTMLTable(url)[[1]], stringsAsFactors = F)
-        tmp$SCHOOL <- as.character(tmp$SCHOOL)
-        tmp$rank <- 1:nrow(tmp)
-        tmp <- tmp[is.element(tmp$SCHOOL, teams),]
-        tmp <- tmp[order(tmp$SCHOOL),]
-        winner <- tmp$SCHOOL[grep(min(tmp$rank), tmp$rank)]
+        powranks <- read.csv("https://raw.githubusercontent.com/lbenz730/whoops/master/Powerrankings.csv", as.is = T)
+        tmp <- powranks[is.element(powranks$Team, teams),]
+        tmp <- tmp[order(tmp$Team),]
+        winner <- tmp$Team[grep(max(tmp$YUSAG_Coefficient), tmp$YUSAG_Coefficient)]
       }
       
       

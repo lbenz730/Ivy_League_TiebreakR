@@ -43,16 +43,12 @@ shinyUI(navbarPage("Ivy League TiebreakR",
                                               img(src = "https://usatftw.files.wordpress.com/2016/03/usatsi_9191746.jpg?w=1000&h=750", height = 300, width = 300))
                                           ),
                                           mainPanel(
-                                            ### Jan 5
-                                            fluidRow(h3("January 5th"),
-                                                     column(3, radioButtons("game_41", label = h5("Princeton @ Penn"),
-                                                                            choices = list("Princeton" = "Princeton", "Penn" = "Penn"), selected = games$winner[41]))
-                                            ),
-                                            
                                             ### Jan 6
                                             fluidRow(h3("January 6th"),
                                                      column(3, radioButtons("game_32", label = h5("Dartmouth @ Harvard"),
-                                                                            choices = list("Dartmouth" = "Dartmouth", "Harvard" = "Harvard"), selected = games$winner[32]))
+                                                                            choices = list("Dartmouth" = "Dartmouth", "Harvard" = "Harvard"), selected = games$winner[32])),
+                                                     column(3, radioButtons("game_41", label = h5("Princeton @ Penn"),
+                                                                            choices = list("Princeton" = "Princeton", "Penn" = "Penn"), selected = games$winner[41]))
                                             ),
                                             
                                             ### Jan 12
